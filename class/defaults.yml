@@ -4,3 +4,5 @@ parameters:
     namespace: syn-cloudscale-cloud-controller-manager
 
     manifests_version: 1.0.0-rc.1
+
+    api_token: ?{vaultkv:${cluster:tenant}/${cluster:name}/cloudscale/token}

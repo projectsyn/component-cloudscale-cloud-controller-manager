@@ -31,6 +31,16 @@ local patchDaemonset(obj) =
   else
     obj;
 
+local tokenSecret = kube.Secret('cloudscale') {
+  metadata+: {
+    namespace: params.namespace,
+  },
+  data:: {},
+  stringData: {
+    'access-token': params.api_token,
+  },
+};
+
 local customRBAC = if isOpenShift then
   [
     kube.RoleBinding('ccm-hostnetwork') {
@@ -60,6 +70,7 @@ else
         },
       },
     },
+  '01_secret': tokenSecret,
   '10_daemonset': [
     patchDaemonset(object) {
       metadata+: {
