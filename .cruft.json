@@ -1,0 +1,25 @@
+{
+  "template": "https://github.com/projectsyn/commodore-component-template.git",
+  "commit": "7803d07f1d79fc8b902fcafbb336b6b0a4b57b90",
+  "checkout": "main",
+  "context": {
+    "cookiecutter": {
+      "name": "cloudscale-cloud-controller-manager",
+      "slug": "cloudscale-cloud-controller-manager",
+      "parameter_key": "cloudscale_cloud_controller_manager",
+      "test_cases": "defaults",
+      "add_lib": "n",
+      "add_pp": "n",
+      "add_golden": "y",
+      "add_matrix": "y",
+      "add_go_unit": "n",
+      "copyright_holder": "VSHN AG <info@vshn.ch>",
+      "copyright_year": "2024",
+      "github_owner": "projectsyn",
+      "github_name": "component-cloudscale-cloud-controller-manager",
+      "github_url": "https://github.com/projectsyn/component-cloudscale-cloud-controller-manager",
+      "_template": "https://github.com/projectsyn/commodore-component-template.git"
+    }
+  },
+  "directory": null
+}

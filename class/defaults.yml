@@ -1,0 +1,4 @@
+parameters:
+  cloudscale_cloud_controller_manager:
+    =_metadata: {}
+    namespace: syn-cloudscale-cloud-controller-manager
