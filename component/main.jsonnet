@@ -12,6 +12,25 @@ local manifests = std.parseJson(
   )
 );
 
+local patchDaemonset(obj) =
+  if isOpenShift && obj.kind == 'DaemonSet' then
+    obj {
+      spec+: {
+        template+: {
+          spec+: {
+            tolerations+: [
+              {
+                key: 'node-role.kubernetes.io/master',
+                effect: 'NoSchedule',
+              },
+            ],
+          },
+        },
+      },
+    }
+  else
+    obj;
+
 local customRBAC = if isOpenShift then
   [
     kube.RoleBinding('ccm-hostnetwork') {
@@ -42,7 +61,7 @@ else
       },
     },
   '10_daemonset': [
-    object {
+    patchDaemonset(object) {
       metadata+: {
         namespace: params.namespace,
       },

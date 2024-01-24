@@ -49,5 +49,7 @@ spec:
         - effect: NoSchedule
           key: node.cloudprovider.kubernetes.io/uninitialized
           value: 'true'
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
   updateStrategy:
     type: RollingUpdate
