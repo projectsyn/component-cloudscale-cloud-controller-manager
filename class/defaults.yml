@@ -2,3 +2,5 @@ parameters:
   cloudscale_cloud_controller_manager:
     =_metadata: {}
     namespace: syn-cloudscale-cloud-controller-manager
+
+    manifests_version: 1.0.0-rc.1
