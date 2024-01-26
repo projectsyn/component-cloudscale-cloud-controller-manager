@@ -18,6 +18,9 @@ local patchDaemonset(obj) =
       spec+: {
         template+: {
           spec+: {
+            nodeSelector: {
+              'node-role.kubernetes.io/master': '',
+            },
             tolerations+: [
               {
                 key: 'node-role.kubernetes.io/master',
@@ -44,6 +47,11 @@ local tokenSecret = kube.Secret('cloudscale') {
 local customRBAC = if isOpenShift then
   [
     kube.RoleBinding('ccm-hostnetwork') {
+      metadata+: {
+        // Required if we want to deploy this manifest during cluster
+        // bootstrap.
+        namespace: params.namespace,
+      },
       roleRef_: kube.ClusterRole('system:openshift:scc:hostnetwork'),
       subjects: [
         {

@@ -3,6 +3,6 @@ parameters:
     =_metadata: {}
     namespace: syn-cloudscale-cloud-controller-manager
 
-    manifests_version: 1.0.0-rc.1
+    manifests_version: 1.0.0
 
     api_token: ?{vaultkv:${cluster:tenant}/${cluster:name}/cloudscale/token}

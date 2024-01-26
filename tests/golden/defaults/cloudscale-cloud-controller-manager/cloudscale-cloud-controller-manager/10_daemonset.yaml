@@ -34,7 +34,7 @@ spec:
                 secretKeyRef:
                   key: access-token
                   name: cloudscale
-          image: quay.io/cloudscalech/cloudscale-cloud-controller-manager:1.0.0-rc.1
+          image: quay.io/cloudscalech/cloudscale-cloud-controller-manager:1.0.0
           imagePullPolicy: IfNotPresent
           name: cloudscale-cloud-controller-manager
       hostNetwork: true
@@ -49,5 +49,7 @@ spec:
         - effect: NoSchedule
           key: node.cloudprovider.kubernetes.io/uninitialized
           value: 'true'
+        - effect: NoSchedule
+          key: node.kubernetes.io/not-ready
   updateStrategy:
     type: RollingUpdate
