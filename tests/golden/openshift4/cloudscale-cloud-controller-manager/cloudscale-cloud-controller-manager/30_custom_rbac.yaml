@@ -5,6 +5,7 @@ metadata:
   labels:
     name: ccm-hostnetwork
   name: ccm-hostnetwork
+  namespace: syn-cloudscale-cloud-controller-manager
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
