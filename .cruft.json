@@ -7,7 +7,7 @@
       "name": "cloudscale-cloud-controller-manager",
       "slug": "cloudscale-cloud-controller-manager",
       "parameter_key": "cloudscale_cloud_controller_manager",
-      "test_cases": "defaults",
+      "test_cases": "defaults openshift4",
       "add_lib": "n",
       "add_pp": "n",
       "add_golden": "y",

@@ -1,5 +1,10 @@
 parameters:
   kapitan:
+    dependencies:
+      - type: https
+        source: https://github.com/cloudscale-ch/cloudscale-cloud-controller-manager/releases/download/${cloudscale_cloud_controller_manager:manifests_version}/config.yml
+        output_path: ${_base_directory}/manifests/${cloudscale_cloud_controller_manager:manifests_version}/config.yml
+
     compile:
       - input_paths:
           - ${_base_directory}/component/app.jsonnet
