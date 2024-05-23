@@ -11,6 +11,16 @@ default:: `syn-cloudscale-cloud-controller-manager`
 The namespace in which to deploy this component.
 
 
+== `api_token`
+
+[horizontal]
+type:: string
+default:: `?{vaultkv:${cluster:tenant}/${cluster:name}/cloudscale/token}`
+
+cloudscale.ch API token to be used by the CCM driver.
+This should be a reference to a secret in Vault instead of the plaintext token.
+
+
 == Example
 
 [source,yaml]
