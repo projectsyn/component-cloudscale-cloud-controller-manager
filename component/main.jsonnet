@@ -3,7 +3,7 @@ local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
 
 local params = inv.parameters.cloudscale_cloud_controller_manager;
-local isOpenShift = inv.parameters.facts.distribution == 'openshift4';
+local isOpenShift = std.member([ 'openshift4', 'oke' ], inv.parameters.facts.distribution);
 
 local manifests = std.parseJson(
   kap.yaml_load_stream(
