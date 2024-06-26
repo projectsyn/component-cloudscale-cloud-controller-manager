@@ -9,6 +9,8 @@ This guide describes how to deploy cloudscale.ch CCM on an existing cluster.
 If not already present add the following machine config which customizes the kubelet systemd service on all cluster nodes.
 As described in https://github.com/openshift/infrastructure-provider-onboarding-guide/blob/main/docs/platform-external/installing.md.
 +
+IMPORTANT: Applying the `MachineConfig` causes node reboots.
++
 [source,yaml]
 ----
 spec:
@@ -92,6 +94,8 @@ worker-8e76    cloudscale://a0ba2200-bfc3-435a-b733-8607b6ee4190
 . Deploy component-cloudscale-cloud-controller-manager
 
 . Patch infrastructure config
++
+IMPORTANT: This step triggers node reboots to apply the Kubelet flag `--cloud-provider=external`.
 +
 [source,bash]
 ----
