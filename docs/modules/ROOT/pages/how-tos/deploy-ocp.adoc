@@ -2,7 +2,7 @@
 
 This guide describes how to deploy cloudscale.ch CCM on an existing cluster.
 
-== Steb-by-step guide
+== Step-by-step guide
 
 . Ensure nodes are registered with cloudscale.ch provider id
 +
