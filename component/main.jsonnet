@@ -13,15 +13,24 @@ local manifests = std.parseJson(
 );
 
 local patchDaemonset(obj) =
-  if isOpenShift && obj.kind == 'DaemonSet' then
+  if obj.kind == 'DaemonSet' then
     obj {
       spec+: {
         template+: {
           spec+: {
-            nodeSelector: {
+            containers: [
+              if c.name == 'cloudscale-cloud-controller-manager' then
+                c {
+                  command+: params.args,
+                }
+              else
+                c
+              for c in super.containers
+            ],
+            [if isOpenShift then 'nodeSelector']: {
               'node-role.kubernetes.io/master': '',
             },
-            tolerations+: [
+            [if isOpenShift then 'tolerations']+: [
               {
                 key: 'node-role.kubernetes.io/master',
                 effect: 'NoSchedule',
