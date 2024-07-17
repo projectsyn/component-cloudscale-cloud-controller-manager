@@ -5,4 +5,6 @@ parameters:
 
     manifests_version: 1.0.0
 
+    args: []
+
     api_token: ?{vaultkv:${cluster:tenant}/${cluster:name}/cloudscale/token}

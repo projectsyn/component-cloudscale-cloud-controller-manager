@@ -10,6 +10,22 @@ default:: `syn-cloudscale-cloud-controller-manager`
 
 The namespace in which to deploy this component.
 
+== `manifests_version`
+
+[horizontal]
+type:: string
+defaults:: [See `class/defaults.yml`]
+
+The cloudscale CCM version to deploy.
+
+== `args`
+
+[horizontal]
+type:: list
+defaults:: `[]`
+
+Additional arguments to provide to the cloudscale CCM.
+The contents of this parameter are appended to the upstream manifest verbatim.
 
 == `api_token`
 
