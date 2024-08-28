@@ -3,7 +3,7 @@ parameters:
     =_metadata: {}
     namespace: syn-cloudscale-cloud-controller-manager
 
-    manifests_version: 1.0.0
+    manifests_version: 1.1.0
 
     args: []
 

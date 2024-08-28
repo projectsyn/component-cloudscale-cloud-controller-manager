@@ -1,0 +1,59 @@
+= Load Balancer IP Mode
+
+This guide describes how to steer the internal traffic flow with cloudscale CCM.
+
+== Internal routing and Proxy Protocol
+
+Kubernetes tries to route traffic within the cluster whenever possible.
+This is usually a valid default as it is faster.
+
+However if the proxy protocol or proxy protocol v2 is enabled on both the load balancer and the listening service, the service expects to receive encapsulated traffic using the proxy protocol headers.
+
+If the traffic is routed directly and not passing the load balancer the traffic is not to be encapsulated, which results in the service being unable to parse it correctly and dropping the connection:
+[source,bash]
+----
+curl http://internal-path-to-service/
+curl: (56) Recv failure: Connection reset by peer
+----
+
+== Kubernetes 1.30 and higher
+
+The cloudscale CCM does set .status.loadBalancer.ingress.ipMode automatically to "Proxy", unless LoadBalancerIPMode is set to "VIP".
+This behavior therefore routes the traffic via the load balancer and you have manually configure it to "VIP" to enforce the cluster internal routing.
+
+See the Kubernetes documentation https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-ip-mode[Specifying IPMode of load balancer status] for more information.
+
+== Kubernetes up to 1.29
+
+To force on older Kubernetes routing traffic via the load balancer, you need to replace the service IP with the load balancer hostname.
+The cloudscale CCM allows you to set the hostname using the annotation `k8s.cloudscale.ch/loadbalancer-force-hostname`:
+[source,yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    k8s.cloudscale.ch/loadbalancer-pool-protocol: proxyv2
+    k8s.cloudscale.ch/loadbalancer-force-hostname: <full qualified load balancer DNS name>
+  name: example-service
+  namespace: example
+spec:
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/name: example
+  sessionAffinity: None
+  type: LoadBalancer
+----

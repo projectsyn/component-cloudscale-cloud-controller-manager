@@ -34,7 +34,7 @@ spec:
                 secretKeyRef:
                   key: access-token
                   name: cloudscale
-          image: quay.io/cloudscalech/cloudscale-cloud-controller-manager:1.0.0
+          image: quay.io/cloudscalech/cloudscale-cloud-controller-manager:1.1.0
           imagePullPolicy: IfNotPresent
           name: cloudscale-cloud-controller-manager
       hostNetwork: true
