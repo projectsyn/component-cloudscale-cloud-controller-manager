@@ -5,6 +5,10 @@ local argocd = import 'lib/argocd.libjsonnet';
 
 local app = argocd.App('cloudscale-cloud-controller-manager', params.namespace);
 
+local appPath =
+  local project = std.get(std.get(app, 'spec', {}), 'project', 'syn');
+  if project == 'syn' then 'apps' else 'apps-%s' % project;
+
 {
-  'cloudscale-cloud-controller-manager': app,
+  ['%s/cloudscale-cloud-controller-manager' % appPath]: app,
 }
