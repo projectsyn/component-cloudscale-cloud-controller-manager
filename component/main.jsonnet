@@ -76,6 +76,19 @@ local customRBAC = if isOpenShift then
 else
   [];
 
+local objKey(prefix, obj) =
+  local sanitize(str) =
+    std.asciiLower(std.strReplace(std.strReplace(str, '-', '_'), ':', '_'));
+  local nsname = if std.objectHas(obj.metadata, 'namespace') then
+    '%s_%s' % [ sanitize(obj.metadata.namespace), sanitize(obj.metadata.name) ]
+  else
+    obj.metadata.name;
+  '%s_%s_%s' % [ prefix, sanitize(obj.kind), nsname ];
+
+// NOTE(sg): We generate individual files for each object here so that we
+// don't need to further process the rendered manifests to feed them to the
+// OpenShift install process which requires that additional manifests are
+// stored in individual files.
 {
   [if params.namespace != 'kube-system' then '00_namespace']:
     kube.Namespace(params.namespace) {
@@ -88,16 +101,16 @@ else
       },
     },
   '01_secret': tokenSecret,
-  '10_daemonset': [
-    patchDaemonset(object) {
-      metadata+: {
-        namespace: params.namespace,
-      },
-    }
-    for object in manifests
-    if std.setMember(object.kind, [ 'DaemonSet', 'ServiceAccount' ])
-  ],
-  '20_rbac': [
+} + {
+  [objKey('10_ccm', object)]: patchDaemonset(object) {
+    metadata+: {
+      namespace: params.namespace,
+    },
+  }
+  for object in manifests
+  if std.setMember(object.kind, [ 'DaemonSet', 'ServiceAccount' ])
+} + {
+  [objKey('20_rbac', object)]:
     object + if std.objectHas(object, 'subjects') then
       {
         subjects: [
@@ -109,8 +122,9 @@ else
       }
     else
       {}
-    for object in manifests
-    if std.setMember(object.kind, [ 'ClusterRole', 'ClusterRoleBinding' ])
-  ],
-  [if std.length(customRBAC) > 0 then '30_custom_rbac']: customRBAC,
+  for object in manifests
+  if std.setMember(object.kind, [ 'ClusterRole', 'ClusterRoleBinding' ])
+} + {
+  [objKey('30_custom_rbac', object)]: object
+  for object in customRBAC
 }
