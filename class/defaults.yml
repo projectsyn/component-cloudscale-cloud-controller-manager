@@ -4,6 +4,7 @@ parameters:
       multi_tenant: true
     namespace: syn-cloudscale-cloud-controller-manager
 
+    # renovate: datasource=github-releases depName=cloudscale-ch/cloudscale-cloud-controller-manager
     manifests_version: 1.1.0
 
     args: []

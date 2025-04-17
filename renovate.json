@@ -38,5 +38,14 @@
         "bump:patch"
       ]
     }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["class\\/defaults\\.yml"],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_version:\\s(?<currentValue>.*)"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    }
   ]
 }
