@@ -5,10 +5,21 @@ local inv = kap.inventory();
 local params = inv.parameters.cloudscale_cloud_controller_manager;
 local isOpenShift = std.member([ 'openshift4', 'oke' ], inv.parameters.facts.distribution);
 
+local manifests_version =
+  local ccm_tag = params.images.cloudscale_cloud_controller_manager.tag;
+  if params.manifests_version != ccm_tag then
+    std.trace(
+      'Parameter `manifests_version` is deprecated, we recommend using ' +
+      '`images.cloudscale_cloud_controller_manager.tag` to configure the CCM version.',
+      params.manifests_version
+    )
+  else
+    ccm_tag;
+
 local manifests = std.parseJson(
   kap.yaml_load_stream(
     '%s/manifests/%s/config.yml'
-    % [ inv.parameters._base_directory, params.manifests_version ]
+    % [ inv.parameters._base_directory, manifests_version ]
   )
 );
 
@@ -21,6 +32,9 @@ local patchDaemonset(obj) =
             containers: [
               if c.name == 'cloudscale-cloud-controller-manager' then
                 c {
+                  image:
+                    '%(registry)s/%(repository)s:%(tag)s' %
+                    params.images.cloudscale_cloud_controller_manager,
                   command+: params.args,
                 }
               else
