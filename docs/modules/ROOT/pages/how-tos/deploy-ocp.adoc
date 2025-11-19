@@ -57,8 +57,8 @@ spec:
 [source,bash]
 ----
 for n in $(kubectl get nodes -oname); do
-  PROVIDERID=$(oc -n syn-debug-nodes --as=cluster-admin debug $n -- chroot /host cat /etc/systemd/system/kubelet.service.d/20-appuio-providerid.conf 2>&1 | grep PROVIDERID | sed -e 's/^Environment="KUBELET_PROVIDERID=\([^"]\+\)"$/\1/g')
-  echo kubectl --as=cluster-admin patch $n --type=merge -p "{\"spec\":{\"providerID\":\"${PROVIDERID}\"}}";
+  PROVIDERID=$(oc -n syn-debug-nodes --as=system:admin debug $n -- chroot /host cat /etc/systemd/system/kubelet.service.d/20-appuio-providerid.conf 2>&1 | grep PROVIDERID | sed -e 's/^Environment="KUBELET_PROVIDERID=\([^"]\+\)"$/\1/g')
+  echo kubectl --as=system:admin patch $n --type=merge -p "{\"spec\":{\"providerID\":\"${PROVIDERID}\"}}";
 done
 ----
 
@@ -67,8 +67,8 @@ done
 [source,bash]
 ----
 for n in $(kubectl get nodes -oname); do
-  PROVIDERID=$(oc -n syn-debug-nodes --as=cluster-admin debug $n -- chroot /host cat /etc/systemd/system/kubelet.service.d/20-appuio-providerid.conf 2>&1 | grep PROVIDERID | sed -e 's/^Environment="KUBELET_PROVIDERID=\([^"]\+\)"$/\1/g')
-  kubectl --as=cluster-admin patch $n --type=merge -p "{\"spec\":{\"providerID\":\"${PROVIDERID}\"}}";
+  PROVIDERID=$(oc -n syn-debug-nodes --as=system:admin debug $n -- chroot /host cat /etc/systemd/system/kubelet.service.d/20-appuio-providerid.conf 2>&1 | grep PROVIDERID | sed -e 's/^Environment="KUBELET_PROVIDERID=\([^"]\+\)"$/\1/g')
+  kubectl --as=system:admin patch $n --type=merge -p "{\"spec\":{\"providerID\":\"${PROVIDERID}\"}}";
 done
 kubectl get no -ocustom-columns='NAME:.metadata.name,PROVIDER_ID:.spec.providerID'
 ----
@@ -99,7 +99,7 @@ IMPORTANT: This step triggers node reboots to apply the Kubelet flag `--cloud-pr
 +
 [source,bash]
 ----
-kubectl --as cluster-admin patch infrastructure.config  cluster --type=merge -p '{"spec":{"platformSpec":{"external":{"platformName":"cloudscale.ch"},"type":"External"}}}'
+kubectl --as=system:admin patch infrastructure.config  cluster --type=merge -p '{"spec":{"platformSpec":{"external":{"platformName":"cloudscale.ch"},"type":"External"}}}'
 infrastructure.config.openshift.io/cluster patched
 ----
 +
@@ -113,7 +113,7 @@ curl -XPATCH -H"Content-Type: application/merge-patch+json" http://localhost:800
 +
 [source,bash]
 ----
-kubectl --as cluster-admin taint node --all node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule
+kubectl --as=system:admin taint node --all node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule
 ----
 
 . Check if instance-type is applied
