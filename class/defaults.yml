@@ -13,4 +13,6 @@ parameters:
 
     args: []
 
+    api_timeout: 20
+    api_timeout_default: 20
     api_token: ?{vaultkv:${cluster:tenant}/${cluster:name}/cloudscale/token}

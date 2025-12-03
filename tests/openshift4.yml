@@ -1,3 +1,6 @@
 parameters:
   facts:
     distribution: openshift4
+
+  cloudscale_cloud_controller_manager:
+    api_timeout: 60
