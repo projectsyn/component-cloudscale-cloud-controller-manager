@@ -28,6 +28,8 @@ spec:
                 secretKeyRef:
                   key: access-token
                   name: cloudscale
+            - name: CLOUDSCALE_API_TIMEOUT
+              value: '20'
           image: quay.io/cloudscalech/cloudscale-cloud-controller-manager:1.2.0
           imagePullPolicy: IfNotPresent
           name: cloudscale-cloud-controller-manager

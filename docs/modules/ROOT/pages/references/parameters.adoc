@@ -43,6 +43,14 @@ defaults:: `[]`
 Additional arguments to provide to the cloudscale CCM.
 The contents of this parameter are appended to the upstream manifest verbatim.
 
+== `api_timeout`
+
+[horizontal]
+type:: string
+default:: https://github.com/cloudscale-ch/cloudscale-cloud-controller-manager/blob/74832bae401dc0fc79dcfba923ae154eac684779/pkg/cloudscale_ccm/cloud.go#L28
+
+cloudscale.ch API timeout to be used by the CCM driver.
+
 == `api_token`
 
 [horizontal]
