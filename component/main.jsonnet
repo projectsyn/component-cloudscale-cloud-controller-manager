@@ -36,6 +36,13 @@ local patchDaemonset(obj) =
                     '%(registry)s/%(repository)s:%(tag)s' %
                     params.images.cloudscale_cloud_controller_manager,
                   command+: params.args,
+                  env+:
+                    if params.api_timeout_seconds != null then [
+                      {
+                        name: 'CLOUDSCALE_API_TIMEOUT',
+                        value: std.toString(params.api_timeout_seconds),
+                      },
+                    ] else [],
                 }
               else
                 c
