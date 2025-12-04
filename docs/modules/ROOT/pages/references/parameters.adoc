@@ -43,13 +43,17 @@ defaults:: `[]`
 Additional arguments to provide to the cloudscale CCM.
 The contents of this parameter are appended to the upstream manifest verbatim.
 
-== `api_timeout`
+== `api_timeout_seconds`
 
 [horizontal]
-type:: string
-default:: https://github.com/cloudscale-ch/cloudscale-cloud-controller-manager/blob/74832bae401dc0fc79dcfba923ae154eac684779/pkg/cloudscale_ccm/cloud.go#L28
+type:: number
+default:: `null`
 
-cloudscale.ch API timeout to be used by the CCM driver.
+The API timeout to be used by the CCM driver when communicating with the cloudscale.ch API.
+Unit is seconds.
+If not set the CCM driver will use its upstream default.
+
+The current upstream timeout default is 20 seconds (https://github.com/cloudscale-ch/cloudscale-cloud-controller-manager/blob/74832bae401dc0fc79dcfba923ae154eac684779/pkg/cloudscale_ccm/cloud.go#L28[upstream code]).
 
 == `api_token`
 
