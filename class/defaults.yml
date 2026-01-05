@@ -9,7 +9,7 @@ parameters:
       cloudscale_cloud_controller_manager:
         registry: quay.io
         repository: cloudscalech/cloudscale-cloud-controller-manager
-        tag: 1.2.0
+        tag: 1.3.0
 
     args: []
 
