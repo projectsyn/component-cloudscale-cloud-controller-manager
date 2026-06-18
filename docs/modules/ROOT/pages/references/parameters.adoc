@@ -10,6 +10,14 @@ default:: `syn-cloudscale-cloud-controller-manager`
 
 The namespace in which to deploy this component.
 
+[TIP]
+====
+The component labels the namespace with the Kubernetes Pod Security Admission labels set to `privileged`.
+This ensures that the CCM pods (which use `hostNetwork=true` to avoid issues during cluster bootstrap) are admitted.
+====
+
+NOTE: The component won't emit a manifest for the namespace if this parameter is set to `kube-system`.
+
 == `manifests_version`
 
 [horizontal]
